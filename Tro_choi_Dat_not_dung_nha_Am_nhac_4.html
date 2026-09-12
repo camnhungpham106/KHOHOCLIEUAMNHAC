@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trò chơi Đặt nốt đúng nhà - Âm nhạc lớp 4</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,sans-serif;
+    background:linear-gradient(#dff5ff,#f7fff1);
+    color:#16324f;
+  }
+  .wrap{
+    max-width:1200px;
+    margin:20px auto;
+    padding:18px;
+  }
+  .header{
+    background:white;
+    border-radius:24px;
+    padding:18px 24px;
+    box-shadow:0 8px 24px rgba(0,0,0,.12);
+    text-align:center;
+  }
+  h1{
+    margin:0;
+    font-size:clamp(30px,5vw,52px);
+    color:#e83e66;
+  }
+  .sub{font-size:20px;margin-top:8px}
+  .score{
+    margin:14px auto 0;
+    display:inline-block;
+    padding:8px 18px;
+    border-radius:999px;
+    background:#eef7ff;
+    font-weight:700;
+  }
+
+  .game{
+    margin-top:18px;
+    background:#fff;
+    border-radius:24px;
+    padding:24px;
+    box-shadow:0 8px 24px rgba(0,0,0,.10);
+  }
+
+  .staff-area{
+    position:relative;
+    height:360px;
+    margin:8px 0 22px;
+    border-radius:18px;
+    background:linear-gradient(#ffffff,#fbfdff);
+    overflow:hidden;
+    border:2px solid #d9e8f4;
+  }
+
+  .clef{
+    position:absolute;
+    left:28px;
+    top:64px;
+    font-size:165px;
+    line-height:1;
+    font-family:"Times New Roman",serif;
+    color:#111;
+    z-index:3;
+    user-select:none;
+  }
+
+  .staff{
+    position:absolute;
+    left:145px;
+    right:40px;
+    top:105px;
+    height:160px;
+  }
+  .line{
+    position:absolute;
+    left:0; right:0;
+    height:3px;
+    background:#111;
+  }
+  .l1{top:0}
+  .l2{top:32px}
+  .l3{top:64px}
+  .l4{top:96px}
+  .l5{top:128px}
+
+  .dropzone{
+    position:absolute;
+    width:92px;
+    height:62px;
+    border:3px dashed #6aa8d8;
+    border-radius:18px;
+    background:rgba(223,245,255,.72);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    color:#245a7a;
+    transition:.2s;
+  }
+  .dropzone.over{transform:scale(1.06); background:#e8fff0}
+  .dropzone.correct{border-color:#2e9d54;background:#e9ffef}
+  .dropzone.wrong{border-color:#d64545;background:#ffeaea}
+
+  .ledger{
+    position:absolute;
+    height:3px;
+    background:#111;
+    width:78px;
+    left:50%;
+    transform:translateX(-50%);
+    top:50%;
+    z-index:1;
+  }
+
+  .note-card{
+    width:120px;
+    min-height:86px;
+    border-radius:18px;
+    border:2px solid #aac7dd;
+    background:#f8fcff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:800;
+    cursor:grab;
+    user-select:none;
+    box-shadow:0 5px 12px rgba(0,0,0,.08);
+  }
+  .note-card:active{cursor:grabbing}
+  .note-symbol{
+    font-size:38px;
+    line-height:1;
+    margin-bottom:6px;
+  }
+
+  .bank{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-top:10px;
+  }
+
+  .controls{
+    display:flex;
+    gap:12px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:22px;
+  }
+  button{
+    border:none;
+    padding:13px 24px;
+    border-radius:14px;
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .check{background:#e83e66;color:#fff}
+  .reset{background:#2d8dd2;color:#fff}
+  .help{background:#f3f6f9;color:#16324f}
+  .message{
+    margin-top:16px;
+    text-align:center;
+    min-height:34px;
+    font-size:22px;
+    font-weight:800;
+  }
+  .footer{
+    margin-top:12px;
+    text-align:center;
+    font-size:14px;
+    color:#5d7486;
+  }
+
+  /* exact treble-clef positions for C4–B4:
+     C4 ledger line below, D4 space below, E4 line 1,
+     F4 space 1, G4 line 2, A4 space 2, B4 line 3 */
+  #z-do  {left: 5%;  top: 150px;}
+  #z-re  {left: 18%; top: 134px;}
+  #z-mi  {left: 31%; top: 118px;}
+  #z-fa  {left: 44%; top: 102px;}
+  #z-sol {left: 57%; top: 86px;}
+  #z-la  {left: 70%; top: 70px;}
+  #z-si  {left: 83%; top: 54px;}
+
+  .tiny-label{
+    position:absolute;
+    bottom:-26px;
+    font-size:14px;
+    color:#4c6b80;
+    white-space:nowrap;
+  }
+
+  @media (max-width:900px){
+    .staff-area{height:420px; overflow-x:auto}
+    .staff{min-width:850px}
+    .clef{left:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>🎼 ĐẶT NỐT ĐÚNG NHÀ</h1>
+    <div class="sub">Kéo từng thẻ <b>Đô – Rê – Mi – Pha – Son – La – Si</b> vào đúng vị trí trên khuông nhạc.</div>
+    <div class="score">Số nốt đúng: <span id="score">0</span>/7</div>
+  </div>
+
+  <div class="game">
+    <div class="staff-area">
+      <div class="clef">𝄞</div>
+      <div class="staff">
+        <div class="line l1"></div>
+        <div class="line l2"></div>
+        <div class="line l3"></div>
+        <div class="line l4"></div>
+        <div class="line l5"></div>
+
+        <div class="dropzone" id="z-do" data-note="do">
+          <div class="ledger"></div>
+          <span class="tiny-label">Nốt Đô</span>
+        </div>
+        <div class="dropzone" id="z-re" data-note="re"><span class="tiny-label">Nốt Rê</span></div>
+        <div class="dropzone" id="z-mi" data-note="mi"><span class="tiny-label">Nốt Mi</span></div>
+        <div class="dropzone" id="z-fa" data-note="fa"><span class="tiny-label">Nốt Pha</span></div>
+        <div class="dropzone" id="z-sol" data-note="sol"><span class="tiny-label">Nốt Son</span></div>
+        <div class="dropzone" id="z-la" data-note="la"><span class="tiny-label">Nốt La</span></div>
+        <div class="dropzone" id="z-si" data-note="si"><span class="tiny-label">Nốt Si</span></div>
+      </div>
+    </div>
+
+    <div class="bank" id="bank">
+      <div class="note-card" draggable="true" data-note="do"><div class="note-symbol">♪</div>ĐÔ</div>
+      <div class="note-card" draggable="true" data-note="re"><div class="note-symbol">♪</div>RÊ</div>
+      <div class="note-card" draggable="true" data-note="mi"><div class="note-symbol">♪</div>MI</div>
+      <div class="note-card" draggable="true" data-note="fa"><div class="note-symbol">♪</div>PHA</div>
+      <div class="note-card" draggable="true" data-note="sol"><div class="note-symbol">♪</div>SON</div>
+      <div class="note-card" draggable="true" data-note="la"><div class="note-symbol">♪</div>LA</div>
+      <div class="note-card" draggable="true" data-note="si"><div class="note-symbol">♪</div>SI</div>
+    </div>
+
+    <div class="controls">
+      <button class="check" onclick="checkAll()">✅ Kiểm tra</button>
+      <button class="reset" onclick="resetGame()">🔄 Làm lại</button>
+      <button class="help" onclick="showHelp()">💡 Gợi ý</button>
+    </div>
+    <div class="message" id="message"></div>
+    <div class="footer">Âm nhạc lớp 4 • Học liệu số minh chứng chuyên đề • Trường Tiểu học Phú Ngọc B</div>
+  </div>
+</div>
+
+<script>
+let dragged = null;
+
+function setup(){
+  document.querySelectorAll('.note-card').forEach(card=>{
+    card.addEventListener('dragstart', e=>{
+      dragged = card;
+      e.dataTransfer.setData('text/plain', card.dataset.note);
+      setTimeout(()=>card.style.opacity='.55',0);
+    });
+    card.addEventListener('dragend', ()=>{
+      card.style.opacity='1';
+      dragged=null;
+    });
+  });
+
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    zone.addEventListener('dragover', e=>{
+      e.preventDefault();
+      zone.classList.add('over');
+    });
+    zone.addEventListener('dragleave', ()=>zone.classList.remove('over'));
+    zone.addEventListener('drop', e=>{
+      e.preventDefault();
+      zone.classList.remove('over');
+      const note = e.dataTransfer.getData('text/plain');
+      const card = dragged || document.querySelector(`.note-card[data-note="${note}"]`);
+      if(!card) return;
+
+      // If a card is already here, return it to bank.
+      const existing = zone.querySelector('.note-card');
+      if(existing) document.getElementById('bank').appendChild(existing);
+
+      zone.appendChild(card);
+      clearFeedback();
+    });
+  });
+}
+
+function clearFeedback(){
+  document.querySelectorAll('.dropzone').forEach(z=>z.classList.remove('correct','wrong'));
+  document.getElementById('message').textContent='';
+}
+
+function checkAll(){
+  let correct=0;
+  document.querySelectorAll('.dropzone').forEach(zone=>{
+    zone.classList.remove('correct','wrong');
+    const card = zone.querySelector('.note-card');
+    if(card && card.dataset.note===zone.dataset.note){
+      zone.classList.add('correct');
+      correct++;
+    }else{
+      zone.classList.add('wrong');
+    }
+  });
+  document.getElementById('score').textContent=correct;
+  const msg=document.getElementById('message');
+  if(correct===7){
+    msg.textContent='🏆 Xuất sắc! Em đã đưa cả 7 nốt nhạc về đúng nhà!';
+  }else if(correct>=4){
+    msg.textContent=`👏 Em đã đúng ${correct}/7 nốt. Hãy sửa các ô màu đỏ nhé!`;
+  }else{
+    msg.textContent=`💪 Em đã đúng ${correct}/7 nốt. Quan sát lại dòng và khe rồi thử tiếp nhé!`;
+  }
+}
+
+function resetGame(){
+  const bank=document.getElementById('bank');
+  document.querySelectorAll('.note-card').forEach(card=>bank.appendChild(card));
+  document.getElementById('score').textContent='0';
+  clearFeedback();
+}
+
+function showHelp(){
+  document.getElementById('message').textContent=
+    '💡 Gợi ý: Đô ở dòng kẻ phụ dưới khuông; Rê ở khe dưới; Mi dòng 1; Pha khe 1; Son dòng 2; La khe 2; Si dòng 3.';
+}
+
+setup();
+</script>
+</body>
+</html>
