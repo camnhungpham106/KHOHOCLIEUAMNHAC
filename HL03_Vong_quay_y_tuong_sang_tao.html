@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vòng quay ý tưởng biểu diễn - Âm nhạc 4</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(#eaf8ff,#fff7e8);color:#17364b}
+.wrap{max-width:1050px;margin:22px auto;padding:18px}
+.head,.box{background:#fff;border-radius:24px;box-shadow:0 8px 24px #0002}
+.head{text-align:center;padding:22px}
+h1{margin:0;color:#d83f68;font-size:clamp(30px,5vw,48px)}
+.sub{font-size:19px;margin-top:8px}
+.box{margin-top:18px;padding:24px}
+.stage{display:flex;gap:28px;align-items:center;justify-content:center;flex-wrap:wrap}
+.wheelwrap{position:relative;width:430px;height:430px}
+.pointer{position:absolute;z-index:5;top:-7px;left:50%;transform:translateX(-50%);font-size:55px;color:#d83f68}
+canvas{width:430px;height:430px;max-width:90vw;max-height:90vw}
+.panel{flex:1;min-width:300px;max-width:440px}
+.panel h2{margin-top:0}
+.result{min-height:160px;border:3px dashed #8ec3df;border-radius:20px;padding:18px;background:#f4fbff;text-align:center}
+.big{font-size:28px;font-weight:900;color:#d83f68}
+.task{font-size:21px;font-weight:700;margin-top:12px;line-height:1.45}
+.note{margin-top:12px;font-size:16px;line-height:1.5}
+button{width:100%;border:0;border-radius:15px;padding:15px;font-size:20px;font-weight:900;cursor:pointer;margin-top:14px}
+.spin{background:#d83f68;color:#fff}.again{background:#288dcc;color:#fff}
+.tip{margin-top:18px;padding:14px;border-radius:14px;background:#fff7d9;line-height:1.5}
+.footer{text-align:center;margin-top:16px;color:#647b88;font-size:14px}
+@media(max-width:600px){.wheelwrap{width:330px;height:330px}canvas{width:330px;height:330px}.pointer{font-size:44px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="head">
+  <h1>🎡 VÒNG QUAY Ý TƯỞNG SÁNG TẠO</h1>
+  <div class="sub">Biểu diễn bài <b>“Chuông gió leng keng”</b> – Âm nhạc lớp 4</div>
+ </div>
+
+ <div class="box">
+  <div class="stage">
+   <div class="wheelwrap">
+    <div class="pointer">▼</div>
+    <canvas id="wheel" width="600" height="600"></canvas>
+   </div>
+   <div class="panel">
+    <h2>🎵 Nhiệm vụ của nhóm</h2>
+    <div class="result">
+      <div class="big" id="kind">Bấm “QUAY” để nhận gợi ý!</div>
+      <div class="task" id="task"></div>
+      <div class="note" id="note">Nhóm có quyền điều chỉnh gợi ý để tạo cách biểu diễn phù hợp và sáng tạo hơn.</div>
+    </div>
+    <button class="spin" id="spinBtn" onclick="spin()">🎡 QUAY Ý TƯỞNG</button>
+    <button class="again" onclick="resetResult()">🔄 Xóa kết quả</button>
+    <div class="tip"><b>💡 Vai trò của công nghệ/AI:</b> Công cụ chỉ đưa ra gợi ý. Học sinh thảo luận, lựa chọn, điều chỉnh và quyết định cách thể hiện bằng cảm xúc và sự sáng tạo của mình.</div>
+   </div>
+  </div>
+  <div class="footer">Học liệu số minh chứng chuyên đề • Trường Tiểu học Phú Ngọc B</div>
+ </div>
+</div>
+
+<script>
+const items=[
+ ["ĐƠN CA","Đơn ca + gõ đệm theo phách"],
+ ["SONG CA","Song ca + vận động theo nhịp"],
+ ["TAM CA","Tam ca + bộ gõ cơ thể"],
+ ["TỐP CA","Tốp ca + nhạc cụ gõ"],
+ ["ĐỒNG CA","Đồng ca + vận động phụ họa"],
+ ["SÁNG TẠO","Tự chọn hình thức + tạo 2 động tác mới"],
+ ["ĐỐI ĐÁP","Hai nhóm hát nối tiếp/đối đáp"],
+ ["PHỐI HỢP","Một nhóm hát + một nhóm gõ/vận động"]
+];
+const colors=["#ffd66b","#91d8f7","#ff9fb5","#a8e6b0","#c9b5ff","#ffbf7f","#9be3d6","#f7a7e0"];
+const c=document.getElementById("wheel"),ctx=c.getContext("2d");
+const cx=300,cy=300,r=270,arc=2*Math.PI/items.length;
+let angle=0,spinning=false;
+
+function draw(){
+ ctx.clearRect(0,0,600,600);
+ for(let i=0;i<items.length;i++){
+  const a=angle+i*arc-Math.PI/2;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,a,a+arc);ctx.closePath();
+  ctx.fillStyle=colors[i];ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=5;ctx.stroke();
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(a+arc/2);
+  ctx.textAlign="right";ctx.fillStyle="#17364b";ctx.font="bold 23px Segoe UI";
+  ctx.fillText(items[i][0],r-28,8);ctx.restore();
+ }
+ ctx.beginPath();ctx.arc(cx,cy,62,0,Math.PI*2);ctx.fillStyle="#fff";ctx.fill();
+ ctx.strokeStyle="#d83f68";ctx.lineWidth=8;ctx.stroke();
+ ctx.fillStyle="#d83f68";ctx.font="bold 25px Segoe UI";ctx.textAlign="center";ctx.fillText("ÂM NHẠC",cx,cy+8);
+}
+draw();
+
+function spin(){
+ if(spinning)return;
+ spinning=true;document.getElementById("spinBtn").disabled=true;
+ const extra=6+Math.floor(Math.random()*5);
+ const target=Math.random()*Math.PI*2;
+ const start=angle,end=angle+extra*Math.PI*2+target,dur=3300,startT=performance.now();
+ function anim(t){
+  let p=Math.min((t-startT)/dur,1);
+  let ease=1-Math.pow(1-p,3);
+  angle=start+(end-start)*ease;draw();
+  if(p<1)requestAnimationFrame(anim);
+  else{
+   spinning=false;document.getElementById("spinBtn").disabled=false;
+   const norm=(((-angle)% (2*Math.PI))+2*Math.PI)%(2*Math.PI);
+   const idx=Math.floor((norm+arc/2)/arc)%items.length;
+   show(idx);
+  }
+ } requestAnimationFrame(anim);
+}
+function show(i){
+ document.getElementById("kind").textContent="🎉 "+items[i][0];
+ document.getElementById("task").textContent=items[i][1];
+ document.getElementById("note").textContent="Hãy thảo luận trong nhóm. Các em có thể giữ, thay đổi hoặc kết hợp gợi ý này để phần biểu diễn phù hợp hơn.";
+}
+function resetResult(){
+ document.getElementById("kind").textContent='Bấm “QUAY” để nhận gợi ý!';
+ document.getElementById("task").textContent="";
+ document.getElementById("note").textContent="Nhóm có quyền điều chỉnh gợi ý để tạo cách biểu diễn phù hợp và sáng tạo hơn.";
+}
+</script>
+</body>
+</html>
