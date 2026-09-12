@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phiếu học tập số - Kí hiệu ghi nhạc</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(#eaf8ff,#fff9e9);color:#18364a}
+.wrap{max-width:1050px;margin:22px auto;padding:18px}.head,.card{background:#fff;border-radius:24px;box-shadow:0 8px 24px #0002}
+.head{text-align:center;padding:22px}h1{margin:0;color:#d84068;font-size:clamp(30px,5vw,46px)}.sub{margin-top:8px;font-size:18px}
+.card{padding:24px;margin-top:18px}.q{border:2px solid #dceaf2;border-radius:18px;padding:17px;margin:14px 0}.q h3{margin:0 0 12px}
+.opts{display:grid;gap:8px}.opt{padding:10px 12px;border:2px solid #dce6ec;border-radius:12px;cursor:pointer}.opt:has(input:checked){background:#eaf6ff;border-color:#298ccc}
+select{padding:10px;border:2px solid #cfe0ea;border-radius:10px;font-size:16px}
+.staffbox{text-align:center;padding:14px;background:#f8fcff;border-radius:14px;font-size:19px;line-height:1.7}
+.staff{font-family:"Times New Roman",serif;font-size:42px;letter-spacing:5px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+button{border:0;border-radius:14px;padding:13px 22px;font-size:18px;font-weight:800;cursor:pointer}.check{background:#d84068;color:white}.reset{background:#298ccc;color:white}
+.result{display:none;text-align:center;margin-top:18px;padding:18px;border-radius:18px;background:#f5fbff}.score{font-size:34px;font-weight:900;color:#d84068}
+.feedback{font-size:19px;margin-top:8px}.correct{border-color:#3aa65d!important;background:#ebfff0!important}.wrong{border-color:#d64a4a!important;background:#fff0f0!important}
+.footer{text-align:center;margin-top:14px;color:#607886;font-size:14px}
+</style></head>
+<body><div class="wrap">
+<div class="head"><h1>🎼 PHIẾU HỌC TẬP SỐ</h1><div class="sub"><b>Một số kí hiệu ghi nhạc – vị trí 7 nốt nhạc</b> • Âm nhạc lớp 4</div></div>
+<div class="card">
+<div class="q" id="q1"><h3>Câu 1. Khuông nhạc có bao nhiêu dòng kẻ?</h3><div class="opts">
+<label class="opt"><input type="radio" name="q1" value="4"> 4 dòng</label>
+<label class="opt"><input type="radio" name="q1" value="5"> 5 dòng</label>
+<label class="opt"><input type="radio" name="q1" value="6"> 6 dòng</label></div></div>
+
+<div class="q" id="q2"><h3>Câu 2. Các dòng và khe của khuông nhạc được tính theo thứ tự nào?</h3><div class="opts">
+<label class="opt"><input type="radio" name="q2" value="up"> Từ dưới lên trên</label>
+<label class="opt"><input type="radio" name="q2" value="down"> Từ trên xuống dưới</label></div></div>
+
+<div class="q" id="q3"><h3>Câu 3. Kí hiệu thường đặt ở đầu khuông nhạc trong bài học là gì?</h3>
+<div class="staffbox"><span class="staff">𝄞</span></div><div class="opts">
+<label class="opt"><input type="radio" name="q3" value="son"> Khóa Son</label>
+<label class="opt"><input type="radio" name="q3" value="pause"> Dấu lặng</label>
+<label class="opt"><input type="radio" name="q3" value="repeat"> Dấu nhắc lại</label></div></div>
+
+<div class="q" id="q4"><h3>Câu 4. Nốt Đô thấp trong 7 nốt cơ bản nằm ở đâu?</h3><div class="opts">
+<label class="opt"><input type="radio" name="q4" value="ledger"> Trên dòng kẻ phụ phía dưới khuông</label>
+<label class="opt"><input type="radio" name="q4" value="line1"> Trên dòng 1</label>
+<label class="opt"><input type="radio" name="q4" value="space1"> Trong khe 1</label></div></div>
+
+<div class="q" id="q5"><h3>Câu 5. Ghép vị trí với tên nốt.</h3>
+<div class="staffbox">
+Dòng 1: <select id="a1"><option value="">-- chọn --</option><option>Mi</option><option>Pha</option><option>Son</option></select><br>
+Khe 1: <select id="a2"><option value="">-- chọn --</option><option>Mi</option><option>Pha</option><option>Son</option></select><br>
+Dòng 2: <select id="a3"><option value="">-- chọn --</option><option>Mi</option><option>Pha</option><option>Son</option></select>
+</div></div>
+
+<div class="q" id="q6"><h3>Câu 6. Chọn dãy 7 nốt theo thứ tự từ thấp lên cao.</h3><div class="opts">
+<label class="opt"><input type="radio" name="q6" value="right"> Đô – Rê – Mi – Pha – Son – La – Si</label>
+<label class="opt"><input type="radio" name="q6" value="x"> Đô – Mi – Rê – Pha – La – Son – Si</label>
+<label class="opt"><input type="radio" name="q6" value="y"> Si – La – Son – Pha – Mi – Rê – Đô</label></div></div>
+
+<div class="actions"><button class="check" onclick="grade()">✅ Nộp bài – Chấm điểm</button><button class="reset" onclick="resetAll()">🔄 Làm lại</button></div>
+<div class="result" id="result"><div class="score" id="score"></div><div class="feedback" id="fb"></div></div>
+<div class="footer">Học liệu số • Âm nhạc lớp 4 • Trường Tiểu học Phú Ngọc B</div>
+</div></div>
+<script>
+function val(n){let x=document.querySelector('input[name="'+n+'"]:checked');return x?x.value:""}
+function mark(id,ok){let e=document.getElementById(id);e.classList.remove("correct","wrong");e.classList.add(ok?"correct":"wrong")}
+function grade(){
+ let s=0;
+ let a=val("q1")=="5";mark("q1",a);if(a)s++;
+ a=val("q2")=="up";mark("q2",a);if(a)s++;
+ a=val("q3")=="son";mark("q3",a);if(a)s++;
+ a=val("q4")=="ledger";mark("q4",a);if(a)s++;
+ a=document.getElementById("a1").value=="Mi"&&document.getElementById("a2").value=="Pha"&&document.getElementById("a3").value=="Son";mark("q5",a);if(a)s++;
+ a=val("q6")=="right";mark("q6",a);if(a)s++;
+ let pct=Math.round(s/6*100),fb=pct==100?"🌟 Xuất sắc! Em đã nắm rất chắc kiến thức.":pct>=67?"👍 Hoàn thành tốt! Hãy xem lại những câu màu đỏ.":"💪 Em hãy quan sát lại khuông nhạc và thử lại nhé!";
+ document.getElementById("score").textContent=s+"/6 câu đúng • "+pct+"%";
+ document.getElementById("fb").textContent=fb;document.getElementById("result").style.display="block";
+ document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+function resetAll(){document.querySelectorAll('input').forEach(x=>x.checked=false);document.querySelectorAll('select').forEach(x=>x.selectedIndex=0);document.querySelectorAll('.q').forEach(x=>x.classList.remove("correct","wrong"));document.getElementById("result").style.display="none"}
+</script></body></html>
