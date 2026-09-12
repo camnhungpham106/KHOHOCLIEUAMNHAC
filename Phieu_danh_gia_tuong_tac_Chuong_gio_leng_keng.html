@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu đánh giá biểu diễn - Chuông gió leng keng</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:#eef7fb;color:#18364a}
+.wrap{max-width:1050px;margin:24px auto;padding:18px}.head,.card{background:#fff;border-radius:22px;box-shadow:0 8px 24px #00000018}
+.head{padding:24px;text-align:center}.head h1{margin:0;font-size:38px}.head h2{margin:8px 0 0;color:#d84268}
+.card{padding:24px;margin-top:18px}.row{display:flex;gap:14px;flex-wrap:wrap}.field{flex:1;min-width:230px}
+label{font-weight:700;display:block;margin-bottom:7px}input,select{width:100%;padding:12px;border:2px solid #cfe0ea;border-radius:12px;font-size:16px}
+.criteria{margin-top:18px}.criterion{border:2px solid #dceaf2;border-radius:16px;padding:16px;margin:12px 0}
+.criterion h3{margin:0 0 12px}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.choice{border:2px solid #d8e4ec;border-radius:12px;padding:11px;text-align:center;cursor:pointer;font-weight:700}
+.choice input{display:none}.choice:has(input:checked){border-color:#2684c7;background:#eaf6ff}
+.note{font-size:14px;font-weight:400;margin-top:5px;color:#536d7d}
+button{border:0;border-radius:13px;padding:13px 20px;font-size:17px;font-weight:800;cursor:pointer}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.done{background:#d84268;color:#fff}.reset{background:#2684c7;color:#fff}.print{background:#eef1f4}
+.result{display:none;margin-top:20px;border-radius:18px;padding:20px;background:#f7fbfd;text-align:center}
+.result .big{font-size:34px;font-weight:900}.feedback{font-size:19px;margin-top:8px}
+textarea{width:100%;min-height:90px;padding:12px;border:2px solid #cfe0ea;border-radius:12px;font-size:16px}
+.footer{text-align:center;margin-top:15px;color:#627b89;font-size:14px}
+@media(max-width:700px){.choices{grid-template-columns:1fr}.head h1{font-size:28px}}
+@media print{body{background:#fff}.wrap{margin:0;max-width:none}.head,.card{box-shadow:none}.actions{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="head">
+   <h1>🎤 PHIẾU ĐÁNH GIÁ TƯƠNG TÁC</h1>
+   <h2>Biểu diễn bài “Chuông gió leng keng”</h2>
+   <div>Âm nhạc lớp 4 • Tự đánh giá / Đánh giá đồng đẳng</div>
+ </div>
+
+ <div class="card">
+   <div class="row">
+    <div class="field"><label>Tên nhóm / học sinh</label><input id="name" placeholder="Ví dụ: Nhóm Son"></div>
+    <div class="field"><label>Hình thức biểu diễn</label>
+      <select id="form"><option>Đơn ca</option><option>Song ca</option><option>Tam ca</option><option>Tốp ca</option><option>Đồng ca</option></select>
+    </div>
+   </div>
+
+   <div class="criteria">
+     <div class="criterion">
+       <h3>1. Hát đúng giai điệu, lời ca</h3>
+       <div class="choices">
+        <label class="choice"><input type="radio" name="c1" value="3">🌟 Tốt<div class="note">Đúng, rõ lời, thể hiện tốt</div></label>
+        <label class="choice"><input type="radio" name="c1" value="2">👍 Hoàn thành<div class="note">Cơ bản đúng, còn ít chỗ cần sửa</div></label>
+        <label class="choice"><input type="radio" name="c1" value="1">💪 Cần cố gắng<div class="note">Cần luyện thêm giai điệu/lời ca</div></label>
+       </div>
+     </div>
+
+     <div class="criterion">
+       <h3>2. Giữ nhịp và kết hợp gõ đệm / vận động / nhạc cụ</h3>
+       <div class="choices">
+        <label class="choice"><input type="radio" name="c2" value="3">🌟 Tốt<div class="note">Đều nhịp, phối hợp chắc chắn</div></label>
+        <label class="choice"><input type="radio" name="c2" value="2">👍 Hoàn thành<div class="note">Cơ bản đúng, đôi lúc chưa đều</div></label>
+        <label class="choice"><input type="radio" name="c2" value="1">💪 Cần cố gắng<div class="note">Cần luyện thêm khả năng giữ nhịp</div></label>
+       </div>
+     </div>
+
+     <div class="criterion">
+       <h3>3. Hình thức biểu diễn và ý tưởng sáng tạo</h3>
+       <div class="choices">
+        <label class="choice"><input type="radio" name="c3" value="3">🌟 Tốt<div class="note">Có ý tưởng phù hợp, sinh động</div></label>
+        <label class="choice"><input type="radio" name="c3" value="2">👍 Hoàn thành<div class="note">Có cách thể hiện phù hợp</div></label>
+        <label class="choice"><input type="radio" name="c3" value="1">💪 Cần cố gắng<div class="note">Cần mạnh dạn sáng tạo hơn</div></label>
+       </div>
+     </div>
+
+     <div class="criterion">
+       <h3>4. Tự tin và phối hợp khi biểu diễn</h3>
+       <div class="choices">
+        <label class="choice"><input type="radio" name="c4" value="3">🌟 Tốt<div class="note">Tự tin, phối hợp tích cực</div></label>
+        <label class="choice"><input type="radio" name="c4" value="2">👍 Hoàn thành<div class="note">Thực hiện được, tương đối tự tin</div></label>
+        <label class="choice"><input type="radio" name="c4" value="1">💪 Cần cố gắng<div class="note">Cần tự tin và phối hợp thêm</div></label>
+       </div>
+     </div>
+   </div>
+
+   <label>Điều em/nhóm bạn làm tốt hoặc muốn góp ý</label>
+   <textarea id="comment" placeholder="Viết một nhận xét ngắn, tích cực và cụ thể..."></textarea>
+
+   <div class="actions">
+     <button class="done" onclick="finish()">✅ Hoàn thành đánh giá</button>
+     <button class="reset" onclick="resetForm()">🔄 Làm lại</button>
+     <button class="print" onclick="window.print()">🖨️ In / Lưu PDF</button>
+   </div>
+
+   <div class="result" id="result">
+     <div class="big" id="level"></div>
+     <div id="points"></div>
+     <div class="feedback" id="feedback"></div>
+   </div>
+   <div class="footer">Học liệu số • Âm nhạc lớp 4 • Trường Tiểu học Phú Ngọc B</div>
+ </div>
+</div>
+<script>
+function finish(){
+ let total=0;
+ for(let i=1;i<=4;i++){
+   const x=document.querySelector('input[name="c'+i+'"]:checked');
+   if(!x){alert("Bạn hãy đánh giá đủ 4 tiêu chí nhé!");return;}
+   total+=Number(x.value);
+ }
+ let level="", fb="";
+ if(total>=11){level="🌟 HOÀN THÀNH TỐT";fb="Phần biểu diễn nổi bật. Hãy tiếp tục phát huy sự tự tin và sáng tạo!";}
+ else if(total>=8){level="👍 HOÀN THÀNH";fb="Phần biểu diễn đã đáp ứng yêu cầu. Hãy luyện thêm để phần thể hiện đều và sinh động hơn!";}
+ else{level="💪 CẦN CỐ GẮNG";fb="Hãy luyện thêm từng nội dung và phối hợp cùng bạn. Em sẽ tiến bộ!";}
+ document.getElementById("level").textContent=level;
+ document.getElementById("points").textContent="Kết quả: "+total+"/12 điểm tiêu chí";
+ document.getElementById("feedback").textContent=fb;
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").scrollIntoView({behavior:"smooth"});
+}
+function resetForm(){
+ document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+ document.getElementById("name").value="";
+ document.getElementById("comment").value="";
+ document.getElementById("result").style.display="none";
+}
+</script>
+</body>
+</html>
