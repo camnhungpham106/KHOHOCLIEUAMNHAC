@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phiếu đánh giá đồng đẳng - Sân khấu Chuông gió leng keng</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(#eef8ff,#fff7ec);color:#17364b}
+.wrap{max-width:1080px;margin:22px auto;padding:18px}.head,.card{background:#fff;border-radius:24px;box-shadow:0 8px 24px #0002}
+.head{text-align:center;padding:22px}h1{margin:0;color:#d83f68;font-size:clamp(29px,5vw,45px)}.sub{margin-top:8px;font-size:18px}
+.card{padding:23px;margin-top:18px}.top{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label.title{font-weight:800;display:block;margin-bottom:7px}select,input,textarea{width:100%;padding:11px;border:2px solid #cfe0ea;border-radius:12px;font-size:16px}
+.taskbox{margin-top:16px;padding:15px;border-radius:15px;background:#eef8ff;line-height:1.5}.criterion{border:2px solid #dce9f1;border-radius:17px;padding:16px;margin:13px 0}.criterion h3{margin:0 0 6px}.desc{font-size:14px;color:#587080;margin-bottom:10px}
+.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.choice{border:2px solid #dce6ec;border-radius:12px;padding:10px;text-align:center;cursor:pointer;font-weight:800}.choice input{display:none}.choice:has(input:checked){background:#eaf6ff;border-color:#298ccc}
+.comments{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:15px}textarea{min-height:82px}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}button{border:0;border-radius:14px;padding:13px 20px;font-size:17px;font-weight:800;cursor:pointer}.save{background:#d83f68;color:#fff}.clear{background:#298ccc;color:#fff}.print{background:#eef1f4}
+.result{display:none;text-align:center;margin-top:18px;padding:18px;border-radius:17px;background:#f6fbfe}.big{font-size:28px;font-weight:900;color:#d83f68}
+.summary{margin-top:22px;overflow-x:auto}.summary table{width:100%;border-collapse:collapse}.summary th,.summary td{border:1px solid #cddde6;padding:10px;text-align:center}.summary th{background:#eef7fb}.empty{color:#8498a5}
+.footer{text-align:center;margin-top:14px;color:#627b89;font-size:14px}
+@media(max-width:720px){.top,.comments,.choices{grid-template-columns:1fr}}
+@media print{body{background:white}.wrap{margin:0;max-width:none}.head,.card{box-shadow:none}.actions{display:none}}
+</style></head>
+<body><div class="wrap">
+<div class="head"><h1>🎭 PHIẾU ĐÁNH GIÁ ĐỒNG ĐẲNG</h1><div class="sub">Hoạt động nhóm – <b>“Sân khấu Chuông gió leng keng”</b> • Âm nhạc lớp 4</div></div>
+
+<div class="card">
+<div class="top">
+ <div><label class="title">Nhóm được đánh giá</label><select id="group" onchange="updateTask()"><option>Nhóm 1</option><option>Nhóm 2</option><option>Nhóm 3</option><option>Nhóm 4</option></select></div>
+ <div><label class="title">Nhiệm vụ của nhóm</label><select id="role" onchange="updateTask()"><option value="hat">🎤 Nhóm hát</option><option value="nhaccu">🥁 Nhóm nhạc cụ</option><option value="vandong">💃 Nhóm vận động</option><option value="sangtao">✨ Nhóm sáng tạo</option></select></div>
+</div>
+
+<div class="taskbox" id="taskbox"></div>
+
+<div class="criterion"><h3>1. Thực hiện đúng nhiệm vụ</h3><div class="desc" id="specific">Thực hiện đầy đủ yêu cầu của thẻ nhiệm vụ.</div>
+<div class="choices"><label class="choice"><input type="radio" name="c1" value="3">🌟 Tốt</label><label class="choice"><input type="radio" name="c1" value="2">👍 Hoàn thành</label><label class="choice"><input type="radio" name="c1" value="1">💪 Cần cố gắng</label></div></div>
+
+<div class="criterion"><h3>2. Phối hợp nhóm</h3><div class="desc">Các thành viên cùng tham gia, phối hợp nhịp nhàng và hỗ trợ nhau.</div>
+<div class="choices"><label class="choice"><input type="radio" name="c2" value="3">🌟 Tốt</label><label class="choice"><input type="radio" name="c2" value="2">👍 Hoàn thành</label><label class="choice"><input type="radio" name="c2" value="1">💪 Cần cố gắng</label></div></div>
+
+<div class="criterion"><h3>3. Thể hiện âm nhạc</h3><div class="desc">Giữ nhịp, hát/gõ/vận động phù hợp và thể hiện được tính chất vui tươi của bài.</div>
+<div class="choices"><label class="choice"><input type="radio" name="c3" value="3">🌟 Tốt</label><label class="choice"><input type="radio" name="c3" value="2">👍 Hoàn thành</label><label class="choice"><input type="radio" name="c3" value="1">💪 Cần cố gắng</label></div></div>
+
+<div class="criterion"><h3>4. Sáng tạo và tự tin</h3><div class="desc">Có cách thể hiện phù hợp, ý tưởng riêng và biểu diễn tự tin.</div>
+<div class="choices"><label class="choice"><input type="radio" name="c4" value="3">🌟 Tốt</label><label class="choice"><input type="radio" name="c4" value="2">👍 Hoàn thành</label><label class="choice"><input type="radio" name="c4" value="1">💪 Cần cố gắng</label></div></div>
+
+<div class="comments">
+<div><label class="title">💚 Điều nhóm bạn làm tốt</label><textarea id="good" placeholder="Ví dụ: Nhóm giữ nhịp tốt, phối hợp đều..."></textarea></div>
+<div><label class="title">💡 Gợi ý để nhóm bạn tốt hơn</label><textarea id="suggest" placeholder="Ví dụ: Cần mạnh dạn hơn ở phần vận động..."></textarea></div>
+</div>
+
+<div class="actions"><button class="save" onclick="saveEvaluation()">✅ Hoàn thành đánh giá</button><button class="clear" onclick="clearForm()">🔄 Phiếu mới</button><button class="print" onclick="window.print()">🖨️ In / Lưu PDF</button></div>
+<div class="result" id="result"><div class="big" id="level"></div><div id="score"></div><div id="feedback" style="margin-top:8px;font-size:18px"></div></div>
+
+<div class="summary"><h2>📊 Bảng tổng hợp kết quả</h2>
+<table><thead><tr><th>Nhóm</th><th>Nhiệm vụ</th><th>Điểm</th><th>Mức đạt</th><th>Điều làm tốt</th><th>Gợi ý</th></tr></thead><tbody id="tbody">
+<tr><td colspan="6" class="empty">Chưa có kết quả đánh giá.</td></tr></tbody></table></div>
+<div class="footer">Học liệu số • Âm nhạc lớp 4 • Trường Tiểu học Phú Ngọc B</div>
+</div></div>
+<script>
+const data={
+hat:{name:"Nhóm hát",task:"Hát đúng giai điệu, rõ lời ca; lựa chọn hình thức hát phù hợp.",specific:"Hát đúng giai điệu, rõ lời ca và giữ nhịp ổn định."},
+nhaccu:{name:"Nhóm nhạc cụ",task:"Chọn nhạc cụ gõ và xây dựng cách gõ đệm theo phách hoặc tiết tấu.",specific:"Gõ đều, đúng nhịp, phối hợp phù hợp với phần hát và sử dụng nhạc cụ đúng cách."},
+vandong:{name:"Nhóm vận động",task:"Sáng tạo 2–4 động tác vận động cơ thể/phụ họa phù hợp tính chất bài hát.",specific:"Động tác đúng nhịp, phù hợp, dễ thực hiện và tương đối đồng đều."},
+sangtao:{name:"Nhóm sáng tạo",task:"Kết hợp ít nhất 2 yếu tố: hát, gõ đệm, vận động, đội hình hoặc đối đáp.",specific:"Kết hợp được ít nhất 2 yếu tố và tạo cách thể hiện riêng phù hợp bài hát."}
+};
+let records=[];
+function updateTask(){let d=data[role.value];taskbox.innerHTML="<b>Nhiệm vụ:</b> "+d.task;specific.textContent=d.specific}
+function selected(n){let x=document.querySelector('input[name="'+n+'"]:checked');return x?+x.value:0}
+function saveEvaluation(){
+ let vals=[1,2,3,4].map(i=>selected("c"+i));if(vals.some(x=>!x)){alert("Bạn hãy chọn đủ 4 tiêu chí nhé!");return}
+ let total=vals.reduce((a,b)=>a+b,0),level,fb;
+ if(total>=11){level="🌟 HOÀN THÀNH TỐT";fb="Nhóm thực hiện nổi bật, phối hợp tốt và có sự sáng tạo."}
+ else if(total>=8){level="👍 HOÀN THÀNH";fb="Nhóm đã đáp ứng yêu cầu; hãy tiếp tục điều chỉnh để phần biểu diễn đồng đều hơn."}
+ else{level="💪 CẦN CỐ GẮNG";fb="Nhóm cần luyện thêm và tăng cường phối hợp giữa các thành viên."}
+ document.getElementById("level").textContent=level;score.textContent="Kết quả: "+total+"/12 điểm tiêu chí";feedback.textContent=fb;result.style.display="block";
+ records=records.filter(r=>r.group!==group.value);
+ records.push({group:group.value,role:data[role.value].name,total,level:level.replace(/^[^A-ZÀ-Ỹ]+/,""),good:good.value||"—",suggest:suggest.value||"—"});renderTable();
+ result.scrollIntoView({behavior:"smooth"});
+}
+function renderTable(){tbody.innerHTML=records.sort((a,b)=>a.group.localeCompare(b.group)).map(r=>`<tr><td>${r.group}</td><td>${r.role}</td><td>${r.total}/12</td><td>${r.level}</td><td>${r.good}</td><td>${r.suggest}</td></tr>`).join("")}
+function clearForm(){document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);good.value="";suggest.value="";result.style.display="none"}
+updateTask();
+</script></body></html>
