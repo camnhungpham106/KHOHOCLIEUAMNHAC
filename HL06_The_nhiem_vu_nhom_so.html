@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thẻ nhiệm vụ nhóm số - Chuông gió leng keng</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:linear-gradient(#eef8ff,#fff7ec);color:#17364b}
+.wrap{max-width:1120px;margin:22px auto;padding:18px}
+.head,.panel,.card{background:#fff;border-radius:24px;box-shadow:0 8px 24px #0002}
+.head{text-align:center;padding:22px}
+h1{margin:0;color:#d83f68;font-size:clamp(30px,5vw,48px)}
+.sub{font-size:18px;margin-top:8px}
+.panel{margin-top:18px;padding:22px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{padding:18px;border:2px solid #d9e8f1;box-shadow:none}
+.card h2{margin:0 0 8px;font-size:24px}
+.badge{display:inline-block;padding:6px 12px;border-radius:999px;background:#eef6fb;font-weight:800;margin-bottom:10px}
+.task{font-size:18px;line-height:1.5}
+.criteria{margin-top:12px;padding:12px;background:#f8fbfd;border-radius:14px}
+.criteria b{display:block;margin-bottom:6px}
+.timerbox{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;margin:22px 0}
+.timer{font-size:56px;font-weight:900;color:#d83f68;min-width:180px;text-align:center}
+.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+button{border:0;border-radius:14px;padding:13px 20px;font-size:17px;font-weight:800;cursor:pointer}
+.start{background:#d83f68;color:#fff}.pause{background:#f0b13c;color:#17364b}.reset{background:#278cc8;color:#fff}.shuffle{background:#5b7bd5;color:#fff}
+.note{margin-top:18px;padding:14px;background:#fff7d9;border-radius:14px;line-height:1.5}
+.status{text-align:center;font-size:19px;font-weight:800;min-height:30px;margin-top:10px}
+.footer{text-align:center;color:#607886;font-size:14px;margin-top:14px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>🎭 THẺ NHIỆM VỤ NHÓM SỐ</h1>
+    <div class="sub">Sân khấu <b>“Chuông gió leng keng”</b> • Âm nhạc lớp 4</div>
+  </div>
+
+  <div class="panel">
+    <div class="grid" id="taskGrid">
+      <div class="card">
+        <div class="badge">NHÓM 1</div>
+        <h2>🎤 Nhóm hát</h2>
+        <div class="task">Hát đúng giai điệu, rõ lời ca; chọn hình thức hát phù hợp như đơn ca, song ca, tốp ca hoặc đồng ca.</div>
+        <div class="criteria"><b>Tiêu chí hoàn thành</b>• Đúng giai điệu – lời ca<br>• Giữ nhịp ổn định<br>• Tự tin khi biểu diễn</div>
+      </div>
+
+      <div class="card">
+        <div class="badge">NHÓM 2</div>
+        <h2>🥁 Nhóm nhạc cụ</h2>
+        <div class="task">Chọn nhạc cụ gõ phù hợp và xây dựng cách gõ đệm theo phách hoặc theo tiết tấu cho bài hát.</div>
+        <div class="criteria"><b>Tiêu chí hoàn thành</b>• Gõ đều, đúng nhịp<br>• Phối hợp với phần hát<br>• Sử dụng nhạc cụ đúng cách</div>
+      </div>
+
+      <div class="card">
+        <div class="badge">NHÓM 3</div>
+        <h2>💃 Nhóm vận động</h2>
+        <div class="task">Sáng tạo từ 2–4 động tác vận động cơ thể hoặc phụ họa phù hợp với tính chất vui tươi của bài hát.</div>
+        <div class="criteria"><b>Tiêu chí hoàn thành</b>• Động tác phù hợp nhịp điệu<br>• Dễ thực hiện<br>• Phối hợp đồng đều</div>
+      </div>
+
+      <div class="card">
+        <div class="badge">NHÓM 4</div>
+        <h2>✨ Nhóm sáng tạo</h2>
+        <div class="task">Kết hợp ít nhất 2 yếu tố: hát, gõ đệm, vận động, đội hình hoặc đối đáp để tạo phần biểu diễn riêng.</div>
+        <div class="criteria"><b>Tiêu chí hoàn thành</b>• Có ý tưởng mới<br>• Phù hợp nội dung bài<br>• Các thành viên cùng tham gia</div>
+      </div>
+    </div>
+
+    <div class="timerbox">
+      <div>
+        <div style="text-align:center;font-weight:800">⏱ Thời gian chuẩn bị</div>
+        <div class="timer" id="timer">05:00</div>
+      </div>
+      <div class="controls">
+        <button class="start" onclick="startTimer()">▶ Bắt đầu</button>
+        <button class="pause" onclick="pauseTimer()">⏸ Tạm dừng</button>
+        <button class="reset" onclick="resetTimer()">🔄 Đặt lại</button>
+        <button class="shuffle" onclick="shuffleTasks()">🎲 Đổi nhiệm vụ</button>
+      </div>
+    </div>
+
+    <div class="status" id="status">Các nhóm đọc nhiệm vụ và phân công vai trò trước khi bắt đầu.</div>
+
+    <div class="note"><b>💡 Gợi ý tổ chức:</b> Giáo viên chia lớp thành 4 nhóm. Mỗi nhóm nhận một nhiệm vụ khác nhau, chuẩn bị trong 5 phút, sau đó trình bày trước lớp. Sau phần biểu diễn, giáo viên có thể mở <b>Phiếu đánh giá tương tác</b> để học sinh tự đánh giá và đánh giá đồng đẳng.</div>
+    <div class="footer">Học liệu số minh chứng chuyên đề • Trường Tiểu học Phú Ngọc B</div>
+  </div>
+</div>
+
+<script>
+let total=300, remain=300, timerId=null;
+function render(){
+  let m=Math.floor(remain/60), s=remain%60;
+  document.getElementById("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function startTimer(){
+  if(timerId) return;
+  document.getElementById("status").textContent="🎵 Các nhóm bắt đầu chuẩn bị!";
+  timerId=setInterval(()=>{
+    remain--;
+    render();
+    if(remain<=0){
+      clearInterval(timerId);timerId=null;remain=0;render();
+      document.getElementById("status").textContent="⏰ Hết giờ! Mời các nhóm sẵn sàng biểu diễn.";
+      try{
+        const c=new (window.AudioContext||window.webkitAudioContext)();
+        const o=c.createOscillator(),g=c.createGain();
+        o.connect(g);g.connect(c.destination);o.frequency.value=880;
+        g.gain.setValueAtTime(.2,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);
+        o.start();o.stop(c.currentTime+.5);
+      }catch(e){}
+    }
+  },1000);
+}
+function pauseTimer(){
+  if(timerId){clearInterval(timerId);timerId=null;}
+  document.getElementById("status").textContent="⏸ Đã tạm dừng thời gian.";
+}
+function resetTimer(){
+  if(timerId){clearInterval(timerId);timerId=null;}
+  remain=total;render();
+  document.getElementById("status").textContent="Các nhóm đọc nhiệm vụ và phân công vai trò trước khi bắt đầu.";
+}
+function shuffleTasks(){
+  const grid=document.getElementById("taskGrid");
+  const cards=[...grid.children];
+  for(let i=cards.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [cards[i],cards[j]]=[cards[j],cards[i]];
+  }
+  cards.forEach((c,i)=>{
+    c.querySelector(".badge").textContent="NHÓM "+(i+1);
+    grid.appendChild(c);
+  });
+  document.getElementById("status").textContent="🎲 Đã đổi nhiệm vụ giữa các nhóm!";
+}
+render();
+</script>
+</body>
+</html>
